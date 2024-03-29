@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/03/27 09:26:30 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/03/29 06:13:24 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ typedef struct s_node
 	pthread_t		philo_id;
 	pthread_mutex_t	*r;
 	pthread_mutex_t	*l;
-	
+	size_t			born_time;
+	size_t			meal_time;
+	int				index;
 	struct s_node	*next;
 	struct s_node	*prev;
 }	t_node;

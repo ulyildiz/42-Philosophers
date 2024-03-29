@@ -1,43 +1,23 @@
+#include "functions.h"
 
-static int	check_lim(char *ar, char sign, int i)
+static int	check_lim(char *ar, int i)
 {
-	static char	*int_max = "2147483647";
-//	static char	*int_min = "2147483648";
+	char	*int_max = "2147483647";
 
-	if (sign == '+')
+	if (int_max[i] == ar[i])
 	{
-		if (int_max[i] == ar[i])
-		{
-			if (!check_lim(ar, sign, ++i))
-				return (0);
-		}
-		else if (int_max[i] < ar[i])
+		if (!check_lim(ar, ++i))
 			return (0);
 	}
-	/*else
-	{
-		if (int_min[i] == ar[i])
-		{
-			if (!check_lim(ar, sign, ++i))
-				return (0);
-		}
-		else if (int_min[i] < ar[i])
-			return (0);
-	}*/
+	else if (int_max[i] < ar[i])
+		return (0);
 	return (1);
 }
 
 static int	set_check(char *ar)
 {
-	char	sign;
 	int		len;
 
-	sign = '+';
-	/*if (*ar == '-')
-	{
-		ar++;
-		sign = '-';
-	}*/
 	while (*ar == '0')
 		ar++;
 	len = ft_strlen(ar);
@@ -45,23 +25,20 @@ static int	set_check(char *ar)
 		return (0);
 	else if (len < 10)
 		return (1);
-	else if (!check_lim(ar, sign, 0))
+	else if (!check_lim(ar, 0))
 		return (0);
 	return (1);
 }
 
-static int	numeric_check(char *argv[])
+static int	numeric_check(char *argv)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (argv[i])
 	{
-		j = -1;
-		while (argv[i][++j])
-			if (!("0" <= argv[i][j] && argv[i][j] <= "9"))
-				return (0);
+		if (!('0' <= argv[i] && argv[i] <= '9'))
+			return (0);
 		i++;
 	}
 	return (1);

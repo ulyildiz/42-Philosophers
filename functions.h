@@ -3,6 +3,10 @@
 
 # include "defines.h"
 
+// free_error
+void	philos_gone(t_node *philos);
+void	getting_up(t_dining *table);
+
 // check
 int		arg_check(int argc, char *argv[]);
 
@@ -10,5 +14,7 @@ int		arg_check(int argc, char *argv[]);
 int		ft_patoi(const char *s);
 t_node	*birth(int i);
 void	*ft_calloc(size_t count, size_t nbyte);
+size_t	ft_strlen(const char *s);
+size_t	calc_current_time(void);
 
 #endif

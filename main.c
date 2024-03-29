@@ -1,18 +1,7 @@
 #include "functions.h"
+#include <stdio.h> 
 #include <stdlib.h>
-
-/*static void	init_mutex(t_node *node)
-{
-	t_node	*tmp;
-
-	tmp = node;
-	while (tmp != node)
-	{
-		tmp->r = tmp->prev->l;
-		tmp = tmp->next;
-	}
-//	return (1); ilk mutexleride burda açacaksak ihtiyaç olur
-}*/
+#include <unistd.h>
 
 static int	init_node(t_dining *table)
 {
@@ -24,22 +13,17 @@ static int	init_node(t_dining *table)
 	{
 		tmp = birth(i);
 		if (!tmp)
-			return (0); // free
+			return (philos_gone(table->philo_node), 0);
 		if (!table->philo_node)
 			table->philo_node = tmp;
 		else
 		{
-			table->philo_node->next = tmp;
-			tmp->prev = table->philo_node;
-		}
-		if (i + 1 == table->philo_nbr)
-		{
-			tmp->next = table->philo_node;
+			table->philo_node->prev->next = tmp;
+			tmp->prev = table->philo_node->prev;
 			table->philo_node->prev = tmp;
+			tmp->next = table->philo_node;
 		}
-		free(tmp);
 	}
-	init_mutex(table->philo_node);
 	return (1);
 }
 
@@ -57,7 +41,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 		table->eat_count = 0;
 	table->d_or_a = ALIVE;
 	table->philo_node = NULL;
-	if (init_node(table))
+	if (!init_node(table))
 		return (0);
 	tmp = table->philo_node;
 	while (tmp != table->philo_node)
@@ -71,10 +55,17 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_dining	table;
+	t_node *tmp;
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
-		return (1);
-	to_eat();
-	is_sb_died();
+		return (write(2, "c\n", 2), 1);
+	/*tmp = table.philo_node->next;
+	while (tmp != table.philo_node)
+	{
+		printf("%d\n", tmp->index);
+		tmp = tmp->next;
+	}*/
+	invite_philo(&table);
+	/*is_sb_died();*/
 	return (0);
 }
