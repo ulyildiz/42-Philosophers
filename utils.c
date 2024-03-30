@@ -59,8 +59,6 @@ t_node	*birth(int i)
 	if (!t)
 		return (NULL);
 	t->index = i;
-	t->next = t;
-	t->prev = t;
 	t->l = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!t->l)
 		return (free(t), NULL);

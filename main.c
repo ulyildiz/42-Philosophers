@@ -5,11 +5,13 @@
 
 static int	init_node(t_dining *table)
 {
+	t_node	*tmp2;
 	t_node	*tmp;
 	int		i;
 
-	i = -1;
-	while (++i < table->philo_nbr)
+	i = 0;
+	tmp2 = (table->philo_node);
+	while (++i <= table->philo_nbr)
 	{
 		tmp = birth(i);
 		if (!tmp)
@@ -18,11 +20,14 @@ static int	init_node(t_dining *table)
 			table->philo_node = tmp;
 		else
 		{
-			table->philo_node->prev->next = tmp;
-			tmp->prev = table->philo_node->prev;
-			table->philo_node->prev = tmp;
-			tmp->next = table->philo_node;
+			tmp2 = table->philo_node;
+			while(tmp2->next)
+				tmp2 = tmp2->next;
+			tmp2->next = tmp;
+			tmp->prev = tmp2;
 		}
+		tmp->status = ALIVE;
+		tmp->tbl = table;
 	}
 	return (1);
 }
@@ -32,6 +37,8 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	t_node	*tmp;
 
 	table->philo_nbr = ft_patoi(argv[1]);
+	/*if (table->philo_nbr == 1)
+		return (0);*/
 	table->time_die = ft_patoi(argv[2]);
 	table->time_eat = ft_patoi(argv[3]);
 	table->time_sleep = ft_patoi(argv[4]);
@@ -55,12 +62,13 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_dining	table;
-	t_node *tmp;
+//	t_node *tmp;
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (write(2, "c\n", 2), 1);
-	/*tmp = table.philo_node->next;
-	while (tmp != table.philo_node)
+	
+	/*tmp = table.philo_node;
+	while (tmp)
 	{
 		printf("%d\n", tmp->index);
 		tmp = tmp->next;

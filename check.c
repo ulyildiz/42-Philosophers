@@ -1,9 +1,11 @@
 #include "functions.h"
+#include <stdio.h>
 
 static int	check_lim(char *ar, int i)
 {
-	char	*int_max = "2147483647";
+	char	*int_max;
 
+	int_max = "2147483647";
 	if (int_max[i] == ar[i])
 	{
 		if (!check_lim(ar, ++i))
@@ -16,7 +18,7 @@ static int	check_lim(char *ar, int i)
 
 static int	set_check(char *ar)
 {
-	int		len;
+	int	len;
 
 	while (*ar == '0')
 		ar++;
@@ -46,7 +48,7 @@ static int	numeric_check(char *argv)
 
 int	arg_check(int argc, char *argv[])
 {
-	int i;
+	int	i;
 
 	if (argc < 5 || 6 < argc)
 		return (0);
@@ -60,4 +62,32 @@ int	arg_check(int argc, char *argv[])
 		i++;
 	}
 	return (1);
+}
+#include <unistd.h>
+void	*check_guests(void *a)
+{
+	t_dining	*table;
+	t_node		*tmp;
+
+	table = (t_dining *)a;
+	tmp = table->philo_node;
+	write(2, "a2\n", 3);
+	while (1)
+	{
+		if (tmp->status == DEAD)
+		{
+			printf("%d. philosopher was dead\n", tmp->index);
+			getting_up(table);
+		}
+		else if (tmp->status == SLEEPING)
+			printf("%d. philosopher sleeping\n", tmp->index);
+		else if (tmp->status == THINKING)
+			printf("%d. philosopher thinking\n", tmp->index);
+		else if (tmp->status == EATING)
+			printf("%d. philosopher eating\n", tmp->index);
+		tmp = tmp->next;
+		if (!tmp)
+			tmp = table->philo_node;
+	}
+	write(2, "a3\n", 3);
 }

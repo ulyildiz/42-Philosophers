@@ -30,4 +30,5 @@ void	getting_up(t_dining *table)
 {
 	if (table->philo_node)
 		philos_gone(table->philo_node);
+	exit(1);
 }
