@@ -7,6 +7,7 @@
 void	philos_gone(t_node *philos);
 void	getting_up(t_dining *table);
 void	err_mang(int flag);
+
 // check
 void	*check_guests(void *a);
 int		arg_check(int argc, char *argv[]);
@@ -19,6 +20,6 @@ int		ft_patoi(const char *s);
 t_node	*birth(int i);
 void	*ft_calloc(size_t count, size_t nbyte);
 size_t	ft_strlen(const char *s);
-size_t	calc_current_time(void);
+size_t	calc_current_ms_time(void);
 
 #endif

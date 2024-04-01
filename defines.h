@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/01 13:00:23 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:54:46 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_node
 	pthread_mutex_t	*r;
 	pthread_mutex_t	*l;
 	size_t			born_time;
-	size_t			meal_time;
+	size_t			last_eat;
 	int				index;
 	short int		status;
 	struct s_node	*next;
@@ -48,6 +48,7 @@ typedef struct s_dining
 	int				time_sleep;
 	int				eat_count;
 	short int		d_or_a;
+	size_t			begin_time;
 	pthread_t		owner;
 	pthread_mutex_t	print;
 	t_node			*philo_node;

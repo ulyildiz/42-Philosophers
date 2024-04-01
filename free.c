@@ -23,7 +23,7 @@ void	getting_up(t_dining *table)
 {
 	if (table->philo_node)
 		philos_gone(table->philo_node);
-	if (table->print) //?
-		pthread_mutex_destroy(&table->print);
+	//if (table->print) //?
+	//	pthread_mutex_destroy(&table->print);
 	exit(1);
 }

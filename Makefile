@@ -1,9 +1,10 @@
 NAME = philo
 CC = cc -Wall -Wextra -Werror -g
 SOURCE = check.c \
-		free_error.c \
+		free.c \
 		loop.c \
 		main.c \
+		print.c \
 		utils.c
 OBJ = $(SOURCE:.c=.o)
 

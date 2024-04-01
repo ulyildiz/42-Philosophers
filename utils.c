@@ -14,7 +14,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-size_t	calc_current_time(void)
+size_t	calc_current_ms_time(void)
 {
 	struct timeval	time;
 
@@ -60,7 +60,7 @@ t_node	*birth(int i)
 	if (!t)
 		return (err_mang(1), NULL);
 	t->index = i;
-	t->l = ft_calloc(1, sizeof(pthread_mutex_t));
+	t->l = (pthread_mutex_t *)ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!t->l)
 		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->l, NULL))

@@ -17,7 +17,7 @@ void	print_status(t_flags status, int i, pthread_mutex_t *print)
 	pthread_mutex_unlock(print);
 }
 
-void	err_mang(int flag)
+void	err_mang(int flag) //write daha mı mantıklı?
 {
 	if (flag == 0)
 		printf("Your input need to be an positive integer type's value.\n");

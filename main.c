@@ -53,7 +53,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	if (pthread_mutex_init(&table->print, NULL))
 		return (philos_gone(table->philo_node), err_mang(2), 0);
 	tmp = table->philo_node;
-	while (tmp != table->philo_node)
+	while (tmp)
 	{
 		tmp->r = tmp->prev->l;
 		tmp = tmp->next;
