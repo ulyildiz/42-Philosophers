@@ -1,31 +1,28 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
-
-void	*s(void *a)
-{
-	printf("2\n");
-	if (a)
-		exit(1);
-	return (NULL);
-}
 
 int	main(void)
 {
-	struct timeval a;
-	gettimeofday(&a, NULL);
-	pthread_t t;
-	pthread_t t1;
-	printf("a\n");
-	pthread_create(&t, NULL, &s, NULL);
-	pthread_create(&t1, NULL, &s, NULL);
-	printf("b\n");
-	pthread_join(t, NULL);
-	printf("0.c\n");
-	pthread_join(t1, NULL);
-	printf("c\n");
-	int a = 5;
-	//while(a == 5);
+	pthread_mutex_t	*a;
+	char			*opaque_ptr;
+
+	// Allocate memory for the mutex
+	// Initialize the mutex
+	pthread_mutex_init(a, NULL);
+	// Access the __opaque array byte-by-byte
+	opaque_ptr = (char *)&(a->__opaque);
+	pthread_mutex_lock(a);
+	pthread_mutex_unlock(a);
+	printf("Contents of __opaque array: ");
+	for (size_t i = 0; i < sizeof(a->__opaque); ++i)
+	{
+		printf("%d ", opaque_ptr[i]);
+	}
+	printf("\n");
+	// Free memory allocated for the mutex
+	return (0);
 }
+
+
+//döngüde value geçmesini dene

@@ -37,6 +37,8 @@ static int	numeric_check(char *argv)
 	int	i;
 
 	i = 0;
+	if (argv[i] == '+')
+		i++;
 	while (argv[i])
 	{
 		if (!('0' <= argv[i] && argv[i] <= '9'))
@@ -51,19 +53,17 @@ int	arg_check(int argc, char *argv[])
 	int	i;
 
 	if (argc < 5 || 6 < argc)
-		return (0);
+		return (printf("Please enter 5 input. (6th is optional)\n"), 0);
 	i = 1;
 	while (argv[i])
 	{
-		if (!numeric_check(argv[i]))
-			return (0);
-		else if (!set_check(argv[i]))
-			return (0);
+		if (!numeric_check(argv[i]) && !set_check(argv[i]))
+			return (err_mang(0), 0);
 		i++;
 	}
 	return (1);
 }
-#include <unistd.h>
+
 void	*check_guests(void *a)
 {
 	t_dining	*table;
@@ -71,7 +71,6 @@ void	*check_guests(void *a)
 
 	table = (t_dining *)a;
 	tmp = table->philo_node;
-	write(2, "a2\n", 3);
 	while (1)
 	{
 		if (tmp->status == DEAD)
@@ -79,15 +78,8 @@ void	*check_guests(void *a)
 			printf("%d. philosopher was dead\n", tmp->index);
 			getting_up(table);
 		}
-		else if (tmp->status == SLEEPING)
-			printf("%d. philosopher sleeping\n", tmp->index);
-		else if (tmp->status == THINKING)
-			printf("%d. philosopher thinking\n", tmp->index);
-		else if (tmp->status == EATING)
-			printf("%d. philosopher eating\n", tmp->index);
 		tmp = tmp->next;
 		if (!tmp)
 			tmp = table->philo_node;
 	}
-	write(2, "a3\n", 3);
 }

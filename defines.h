@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/03/30 09:50:54 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/01 13:00:23 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef enum e_flags
 	EATING,
 	THINKING,
 	SLEEPING,
+	R_FORK,
+	L_FORK,
 }	t_flags;
 
 typedef struct s_node
@@ -40,14 +42,15 @@ typedef struct s_node
 
 typedef struct s_dining
 {
-	int			philo_nbr;
-	int			time_eat;
-	int			time_die;
-	int			time_sleep;
-	int			eat_count;
-	u_int16_t	d_or_a;
-	pthread_t	owner;
-	t_node		*philo_node;
+	int				philo_nbr;
+	int				time_eat;
+	int				time_die;
+	int				time_sleep;
+	int				eat_count;
+	short int		d_or_a;
+	pthread_t		owner;
+	pthread_mutex_t	print;
+	t_node			*philo_node;
 	
 }	t_dining;
 

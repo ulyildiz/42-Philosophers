@@ -1,5 +1,5 @@
 #include "functions.h"
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -21,7 +21,7 @@ static int	init_node(t_dining *table)
 		else
 		{
 			tmp2 = table->philo_node;
-			while(tmp2->next)
+			while (tmp2->next)
 				tmp2 = tmp2->next;
 			tmp2->next = tmp;
 			tmp->prev = tmp2;
@@ -46,10 +46,12 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 		table->eat_count = ft_patoi(argv[5]);
 	else
 		table->eat_count = 0;
-	table->d_or_a = ALIVE;
+	table->d_or_a = ALIVE; //??
 	table->philo_node = NULL;
 	if (!init_node(table))
 		return (0);
+	if (pthread_mutex_init(&table->print, NULL))
+		return (philos_gone(table->philo_node), err_mang(2), 0);
 	tmp = table->philo_node;
 	while (tmp != table->philo_node)
 	{
@@ -62,18 +64,17 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_dining	table;
-//	t_node *tmp;
 
+	//	t_node *tmp;
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (write(2, "c\n", 2), 1);
-	
 	/*tmp = table.philo_node;
 	while (tmp)
 	{
 		printf("%d\n", tmp->index);
 		tmp = tmp->next;
 	}*/
-	invite_philo(&table);
-	/*is_sb_died();*/
+	if (!invite_philo(&table))
+		getting_up(&table);
 	return (0);
 }

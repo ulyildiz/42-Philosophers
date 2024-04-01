@@ -9,16 +9,17 @@ size_t	ft_strlen(const char *s)
 	if (!s)
 		return (0);
 	i = -1;
-	while (s[++i]);
+	while (s[++i])
+		;
 	return (i);
 }
 
 size_t	calc_current_time(void)
 {
-	struct timeval time;
-	
-	gettimeofday(&time, NULL); // neden null
-	return (time.tv_sec * 1000 + time.tv_usec *0.001); //?
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec * 0.001);
 }
 
 int	ft_patoi(const char *s)
@@ -57,13 +58,12 @@ t_node	*birth(int i)
 
 	t = (t_node *)ft_calloc(1, sizeof(t_node));
 	if (!t)
-		return (NULL);
+		return (err_mang(1), NULL);
 	t->index = i;
 	t->l = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!t->l)
-		return (free(t), NULL);
+		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->l, NULL))
-		return (philos_gone(t), NULL); // free(t) ?
-	//lock f?
+		return (philos_gone(t), err_mang(2), NULL);
 	return (t);
 }

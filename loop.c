@@ -1,43 +1,37 @@
 #include "functions.h"
 #include <unistd.h>
 
-void	*sleeping_section(void *a);
-	/*loop fonksiyonların*/
-void *thinking_section(void *a)
+/*loop fonksiyonların*/
+void	thinking_section(t_node *philo)
 {
-	t_node	*philo;
-
-	philo = (t_node *)a;
-	philo->status = THINKING;
-	//	usleep(1000);
-	write(2, "t", 1);
-	philo->status = DEAD;
-	sleeping_section(philo);
-	return (NULL);
+	print_status(THINKING, philo->index, &philo->tbl->print);
+	// waiting_time;
+	
 }
 
-void	*eating_section(void *a)
+void	eating_section(t_node *philo)
 {
-	t_node	*philo;
-
-	philo = (t_node *)a;
-	philo->status = EATING;
-	//	usleep(100);
-	write(2, "e", 1);
-	thinking_section(philo);
-	return (NULL);
+	pthread_mutex_lock(philo->l);
+	print_status(R_FORK, philo->index, &philo->tbl->print);
+	pthread_mutex_lock(philo->r);
+	print_status(L_FORK, philo->index, &philo->tbl->print);
+	print_status(EATING, philo->index, &philo->tbl->print);
+	
 }
 
-void	*sleeping_section(void *a)
+void	sleeping_section(t_node *philo)
+{
+	print_status(SLEEPING, philo->index, &philo->tbl->print);
+	// sleeping_time;
+	
+}
+
+void	*starting_section(void *a)
 {
 	t_node	*philo;
 
 	philo = (t_node *)a;
-	philo->status = SLEEPING;
-	//	usleep(1000);
-	write(2, "s", 1);
-	eating_section(philo);
-	return (NULL);
+	// if()
 }
 
 int	invite_philo(t_dining *table)
@@ -47,17 +41,15 @@ int	invite_philo(t_dining *table)
 	// thread başlat;
 	if (pthread_create(&table->owner, NULL, &check_guests, table)
 		&& pthread_join(table->owner, NULL))
-		return (getting_up(table), 0);
+		return (err_mang(3), 0);
 	tmp = table->philo_node;
-	sleeping_section(tmp);
 	/*while (tmp)
 	{
 		// timelar
-		if (pthread_create(&tmp->philo_id, NULL, &sleeping_section, tmp)
+		if (pthread_create(&tmp->philo_id, NULL, &starting_section, tmp)
 			&& pthread_join(tmp->philo_id, NULL))
-			return (getting_up(table), 0);
+			return (err_mang(3), 0);
 		tmp = tmp->next;
 	}*/
-	write(2, "a", 1);
 	return (1);
 }
