@@ -65,5 +65,7 @@ t_node	*birth(int i)
 		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->l, NULL))
 		return (philos_gone(t), err_mang(2), NULL);
+	t->next = t;
+	t->prev = t;
 	return (t);
 }

@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/01 15:54:46 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:03:00 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <pthread.h>
 
-typedef enum e_flags
+typedef enum s_flags
 {
 	DEAD,
 	ALIVE,
@@ -24,7 +24,7 @@ typedef enum e_flags
 	SLEEPING,
 	R_FORK,
 	L_FORK,
-}	t_flags;
+}					t_flags;
 
 typedef struct s_node
 {
@@ -33,12 +33,13 @@ typedef struct s_node
 	pthread_mutex_t	*l;
 	size_t			born_time;
 	size_t			last_eat;
+	size_t			eated;
 	int				index;
 	short int		status;
 	struct s_node	*next;
 	struct s_node	*prev;
 	struct s_dining	*tbl;
-}	t_node;
+}					t_node;
 
 typedef struct s_dining
 {
@@ -46,13 +47,14 @@ typedef struct s_dining
 	int				time_eat;
 	int				time_die;
 	int				time_sleep;
-	int				eat_count;
+	size_t			eat_count;
 	short int		d_or_a;
 	size_t			begin_time;
 	pthread_t		owner;
-	pthread_mutex_t	print;
 	t_node			*philo_node;
-	
-}	t_dining;
+	pthread_mutex_t	print;
+	pthread_mutex_t	waiting;
+	pthread_mutex_t	set;
+}					t_dining;
 
 #endif

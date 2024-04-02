@@ -1,13 +1,13 @@
 NAME = philo
-CC = cc -Wall -Wextra -Werror -g
+CC = cc -fsanitize=thread -g
 SOURCE = check.c \
 		free.c \
 		loop.c \
 		main.c \
 		print.c \
+		shit.c \
 		utils.c
 OBJ = $(SOURCE:.c=.o)
-
 
 $(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
