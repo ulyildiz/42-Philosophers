@@ -2,7 +2,7 @@
 
 int	checking_flag(pthread_mutex_t *mtx, size_t *flag)
 {
-	int	i;
+	size_t	i;
 
 	pthread_mutex_lock(mtx);
 	i = *flag;
@@ -10,8 +10,7 @@ int	checking_flag(pthread_mutex_t *mtx, size_t *flag)
 	return (i);
 }
 
-void	set_safe(pthread_mutex_t *mtx, int value, size_t *dst)
-		// HER ZAMAN INT DEĞİLSE DEĞİŞTİR
+void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst)
 {
 	pthread_mutex_lock(mtx);
 	*dst = value;
@@ -20,6 +19,6 @@ void	set_safe(pthread_mutex_t *mtx, int value, size_t *dst)
 
 void	wait_all(t_dining *table)
 {
-	while (checking_flag(&table->waiting, &table->eat_count) == -1)
+	while (checking_flag(&table->waiting, &table->eat_count))
 		;
 }

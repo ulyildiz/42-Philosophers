@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/02 16:03:00 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/04 09:15:10 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_dining
 	int				time_die;
 	int				time_sleep;
 	size_t			eat_count;
-	short int		d_or_a;
+	size_t			d_or_a;
 	size_t			begin_time;
 	pthread_t		owner;
 	t_node			*philo_node;

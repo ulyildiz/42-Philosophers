@@ -40,7 +40,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	if (argc == 6)
 		table->eat_count = ft_patoi(argv[5]);
 	else
-		table->eat_count = -1;
+		table->eat_count = 0;
 	table->philo_node = NULL;
 	if (!init_node(table))
 		return (0);
@@ -53,10 +53,10 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	tmp = table->philo_node->next;
 	while (tmp != table->philo_node)
 	{
-		tmp->r = tmp->prev->l;
+		tmp->l = tmp->prev->r;
 		tmp = tmp->next;
 	}
-	tmp->r = tmp->prev->l;
+	tmp->l = tmp->prev->r;
 	return (1);
 }
 
@@ -64,15 +64,13 @@ int	main(int argc, char *argv[])
 {
 	t_dining	table;
 
-	//t_node		*tmp;
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (write(2, "c\n", 2), 1);
 	table.d_or_a = ALIVE; //??
-	/*tmp = table.philo_node;
-	while (tmp)
+	/*while (table.philo_node)
 	{
-		printf("%d. left_f = %p, right_f = %p\n", tmp->index, tmp->l, tmp->r);
-		tmp = tmp->next;
+		printf("%d. left_f = %p, right_f = %p\n", table.philo_node->index, table.philo_node->l, table.philo_node->r);
+		table.philo_node = table.philo_node->next;
 	}*/
 	if (!invite_philo(&table))
 		getting_up(&table);
