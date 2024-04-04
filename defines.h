@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/04 09:15:10 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/04 22:50:00 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ typedef enum s_flags
 	SLEEPING,
 	R_FORK,
 	L_FORK,
-}					t_flags;
+	LOCK,
+	UNLOCK,
+	CREATE,
+	DESTROY,
+	INIT,
+	JOIN
+}			t_flags;
 
 typedef struct s_node
 {

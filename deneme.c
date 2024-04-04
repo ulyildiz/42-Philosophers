@@ -47,8 +47,10 @@ int	main(void)
 	}
 	gettimeofday(&time2, NULL);
 	printf("%f\n", (time2.tv_sec * 1000 + time2.tv_usec * 0.001)-(time.tv_sec * 1000 + time.tv_usec * 0.001));*/
-	while (-1)
-		printf("a");
+	pthread_mutex_t *a;
+	a = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(a, NULL);
+	free(a);
 	return (0);
 }
 

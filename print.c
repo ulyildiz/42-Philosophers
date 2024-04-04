@@ -24,7 +24,7 @@ void	err_mang(int flag) //write daha mı mantıklı?
 	else if (flag == 1)
 		printf("There is a problem while allocating memory.\n");
 	else if (flag == 2)
-		printf("There is a problem while initilaizing a mutex.\n");
+		printf("There is a problem about mutexes.\n");
 	else if (flag == 3)
 		printf("There is a problem while creating thread or pthread_join function.\n");
 }

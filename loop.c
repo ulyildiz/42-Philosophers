@@ -11,16 +11,14 @@ void	eating_section(t_node *philo)
 	print_status(L_FORK, philo->index, &philo->tbl->print);
 	print_status(EATING, philo->index, &philo->tbl->print);
 	usleep(philo->tbl->time_eat * 1000);
-	printf("%d - %lu- \n", philo->index ,calc_current_ms_time() - philo->last_eat);
-	pthread_mutex_unlock(philo->l);
-	pthread_mutex_unlock(philo->r);
-	set_safe(&philo->tbl->set, calc_current_ms_time(), &philo->last_eat);
-	
-	// set last_eat
-	/*if (philo->eated == philo->tbl->eat_count)
+	//printf("%d - %lu- \n", philo->index ,calc_current_ms_time() - philo->last_eat);
+	if (philo->eated == philo->tbl->eat_count)
 	{
 		;
-	}*/
+	}
+	set_safe(&philo->tbl->set, calc_current_ms_time(), &philo->last_eat);
+	pthread_mutex_unlock(philo->l);
+	pthread_mutex_unlock(philo->r);
 	print_status(SLEEPING, philo->index, &philo->tbl->print);
 	usleep(philo->tbl->time_sleep * 1000);
 	print_status(THINKING, philo->index, &philo->tbl->print);
@@ -43,7 +41,6 @@ void	*starting_section(void *a)
 		eating_section(philo);/*
 		if (philo->status == DEAD) // take safe
 			philo->tbl->d_or_a = DEAD;*/
-		// sleeping_section(philo);
 		// thinking_section(philo);
 	}
 	return (NULL);
@@ -54,12 +51,9 @@ int	invite_philo(t_dining *table)
 	int	i;
 
 	i = -1;
-	if (pthread_create(&table->owner, NULL, &check_guests, table))
-		return (err_mang(3), getting_up(table), 0);
-	//table->begin_time = calc_current_ms_time();
+	safe_thread(&table->owner, CREATE, );
 	while (++i < table->philo_nbr)
 	{
-		//table->philo_node->last_eat = table->begin_time;
 		if (pthread_create(&table->philo_node->philo_id, NULL,
 				&starting_section, table->philo_node))
 			return (err_mang(3), getting_up(table), 0);

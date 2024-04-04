@@ -79,7 +79,5 @@ void	*check_guests(void *a)
 			getting_up(table);
 		}
 		tmp = tmp->next;
-		if (!tmp)
-			tmp = table->philo_node;
 	}
 }
