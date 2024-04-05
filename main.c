@@ -13,7 +13,7 @@ static int	init_node(t_dining *table)
 	{
 		tmp = birth(i);
 		if (!tmp)
-			return (philos_gone(table->philo_node), 0);
+			return (clean_node(table), 0);
 		if (!table->philo_node)
 			table->philo_node = tmp;
 		else
@@ -40,16 +40,14 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	if (argc == 6)
 		table->eat_count = ft_patoi(argv[5]);
 	else
-		table->eat_count = 0;
+		table->eat_count = -1;
+	table->flag = 0;
 	table->philo_node = NULL;
 	if (!init_node(table))
 		return (0);
-	if (pthread_mutex_init(&table->print, NULL))
-		return (philos_gone(table->philo_node), err_mang(2), 0);
-	if (pthread_mutex_init(&table->waiting, NULL))
-		return (philos_gone(table->philo_node), err_mang(2), 0);
-	if (pthread_mutex_init(&table->set, NULL))
-		return (philos_gone(table->philo_node), err_mang(2), 0);
+	safe_mutex(&table->print, INIT, table);
+	safe_mutex(&table->set, INIT, table);
+	safe_mutex(&table->waiting, INIT, table);
 	tmp = table->philo_node->next;
 	while (tmp != table->philo_node)
 	{
@@ -65,7 +63,7 @@ int	main(int argc, char *argv[])
 	t_dining	table;
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
-		return (write(2, "c\n", 2), 1);
+		return (1);
 	table.d_or_a = ALIVE; //??
 	/*while (table.philo_node)
 	{
@@ -76,3 +74,9 @@ int	main(int argc, char *argv[])
 		getting_up(&table);
 	return (0);
 }
+	/*if (pthread_mutex_init(&table->print, NULL))
+		return (clean_node(table), err_mang(2), 0);
+	if (pthread_mutex_init(&table->waiting, NULL))
+		return (clean_node(table), err_mang(2), 0);
+	if (pthread_mutex_init(&table->set, NULL))
+		return (clean_node(table), err_mang(2), 0);*/

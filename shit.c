@@ -19,6 +19,6 @@ void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst)
 
 void	wait_all(t_dining *table)
 {
-	while (checking_flag(&table->waiting, &table->eat_count))
+	while (checking_flag(&table->waiting, &table->flag))
 		;
 }

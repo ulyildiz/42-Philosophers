@@ -5,6 +5,7 @@ SOURCE = check.c \
 		loop.c \
 		main.c \
 		print.c \
+		safety_functions.c \
 		shit.c \
 		utils.c
 OBJ = $(SOURCE:.c=.o)

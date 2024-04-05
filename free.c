@@ -1,4 +1,4 @@
-#include "defines.h"
+#include "functions.h"
 #include <stdlib.h>
 
 void	clean_node(t_dining *table)
@@ -21,7 +21,7 @@ void	clean_mutex(t_dining *table)
 	int	i;
 
 	i = -1;
-	safe_mutex(&table->print, DESTROY, table);
+	safe_mutex(&table->print, DESTROY, table); // mutexin var olup olmamasını nasıl kontrol ederiz
 	safe_mutex(&table->waiting, DESTROY, table);
 	safe_mutex(&table->set, DESTROY, table);
 	while (++i < table->philo_nbr)
@@ -34,6 +34,6 @@ void	clean_mutex(t_dining *table)
 void	getting_up(t_dining *table)
 {
 	if (table->philo_node)
-		philos_gone(table->philo_node);
+		clean_node(table);
 	exit(1);
 }

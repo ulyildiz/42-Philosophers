@@ -1,9 +1,9 @@
-#include "defines.h"
-#include <stdio.h> 
+#include "functions.h"
+#include <stdio.h>
 
-void	print_status(t_flags status, int i, pthread_mutex_t *print)
+void	print_status(t_flags status, int i, t_dining *tbl)
 {
-	pthread_mutex_lock(print);
+	safe_mutex(&tbl->print, LOCK, tbl);
 	if (status == R_FORK)
 		printf("%d. philosopher's has taken a fork.(right)\n", i);
 	else if (status == L_FORK)
@@ -14,10 +14,10 @@ void	print_status(t_flags status, int i, pthread_mutex_t *print)
 		printf("%d. philosopher's eating.\n", i);
 	else if (status == THINKING)
 		printf("%d. philosopher's thinking.\n", i);
-	pthread_mutex_unlock(print);
+	safe_mutex(&tbl->print, UNLOCK, tbl);
 }
 
-void	err_mang(int flag) //write daha mı mantıklı?
+void	err_mang(int flag) // write daha mı mantıklı?
 {
 	if (flag == 0)
 		printf("Your input need to be an positive integer type's value.\n");

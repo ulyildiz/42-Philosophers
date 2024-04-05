@@ -1,20 +1,20 @@
 // mutex ve thread düzgün hata kontrolleri
-#include "defines.h"
+#include "functions.h"
 #include <stdlib.h>
 
-static void	mutex_error(int check, int flag, t_dining *tbl)
+static void	mutex_error(int check, t_flags flag, t_dining *tbl)
 {
 	if (check)
 	{
 		err_mang(2);
 		if (flag != DESTROY)
-		clean_mutex(tbl);
+			clean_mutex(tbl);
 		clean_node(tbl);
 		exit(1);
 	}
 }
 
-static void	thread_error(int check, int flag, t_dining *tbl)
+static void	thread_error(int check, t_flags flag, t_dining *tbl)
 {
 	if (check)
 	{
@@ -25,7 +25,7 @@ static void	thread_error(int check, int flag, t_dining *tbl)
 	}
 }
 
-void	safe_mutex(pthread_mutex_t *mtx, int flag, t_dining* tbl)
+void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining* tbl)
 {
 	if (flag == UNLOCK)
 		mutex_error(pthread_mutex_unlock(mtx), flag, tbl);
@@ -37,10 +37,10 @@ void	safe_mutex(pthread_mutex_t *mtx, int flag, t_dining* tbl)
 		mutex_error(pthread_mutex_destroy(mtx), flag, tbl);
 }
 
-void	safe_thread(pthread_t *thread, int flag, t_node *philo, void *(*func)(void *))
+void	safe_thread(pthread_t *thread, t_flags flag, t_node *philo, void *(*func)(void *))
 {
 	if (flag == CREATE)
 		thread_error(pthread_create(thread, NULL, func, philo), flag, philo->tbl);
 	else if (flag == JOIN)
-		thread_error(pthread_join(thread, NULL), flag, philo->tbl);
+		thread_error(pthread_join(*thread, NULL), flag, philo->tbl);
 }

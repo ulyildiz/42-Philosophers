@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "defines.h"
 #include <sys/time.h>
+#include <errno.h>
 
 int	main(void)
 {
@@ -49,8 +50,9 @@ int	main(void)
 	printf("%f\n", (time2.tv_sec * 1000 + time2.tv_usec * 0.001)-(time.tv_sec * 1000 + time.tv_usec * 0.001));*/
 	pthread_mutex_t *a;
 	a = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(a, NULL);
-	free(a);
+	//pthread_mutex_init(a, NULL);
+	printf("%d\n", pthread_mutex_destroy(a));
+	//free(a);
 	return (0);
 }
 

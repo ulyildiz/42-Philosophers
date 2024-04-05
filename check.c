@@ -76,7 +76,7 @@ void	*check_guests(void *a)
 		if (tmp->status == DEAD)
 		{
 			printf("%d. philosopher was dead\n", tmp->index);
-			getting_up(table);
+		//	getting_up(table);
 		}
 		tmp = tmp->next;
 	}

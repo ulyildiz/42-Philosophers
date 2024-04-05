@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/04 22:50:00 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/05 03:54:25 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef enum s_flags
 	CREATE,
 	DESTROY,
 	INIT,
-	JOIN
+	JOIN,
+	FULL
 }			t_flags;
 
 typedef struct s_node
@@ -53,6 +54,7 @@ typedef struct s_dining
 	int				time_eat;
 	int				time_die;
 	int				time_sleep;
+	size_t				flag;
 	size_t			eat_count;
 	size_t			d_or_a;
 	size_t			begin_time;

@@ -60,11 +60,11 @@ t_node	*birth(int i)
 	if (!t)
 		return (err_mang(1), NULL);
 	t->index = i;
-	/*t->r = (pthread_mutex_t *)ft_calloc(1, sizeof(pthread_mutex_t));
+	t->r = (pthread_mutex_t *)ft_calloc(1, sizeof(pthread_mutex_t)); //?
 	if (!t->r)
-		return (free(t), err_mang(1), NULL);*/
+		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->r, NULL))
-		return (philos_gone(t), err_mang(2), NULL);
+		return (err_mang(2), NULL); //? dışarda freele
 	t->next = t;
 	t->prev = t;
 	return (t);
