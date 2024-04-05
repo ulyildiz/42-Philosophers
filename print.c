@@ -3,7 +3,7 @@
 
 void	print_status(t_flags status, int i, t_dining *tbl)
 {
-	safe_mutex(&tbl->print, LOCK, tbl);
+	safe_mutex(&tbl->print, LOCK, tbl); // flagle yazma işlemini durdur
 	if (status == R_FORK)
 		printf("%d. philosopher's has taken a fork.(right)\n", i);
 	else if (status == L_FORK)
