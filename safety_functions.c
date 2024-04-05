@@ -25,7 +25,7 @@ static void	thread_error(int check, t_flags flag, t_dining *tbl)
 	}
 }
 
-void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining* tbl)
+void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining* tbl) // mutex destroyları mutex lockluyken ve oluşmamışken çalışacak şekilde çağırma
 {
 	if (flag == UNLOCK)
 		mutex_error(pthread_mutex_unlock(mtx), flag, tbl);

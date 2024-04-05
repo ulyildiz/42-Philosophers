@@ -50,9 +50,9 @@ int	main(void)
 	printf("%f\n", (time2.tv_sec * 1000 + time2.tv_usec * 0.001)-(time.tv_sec * 1000 + time.tv_usec * 0.001));*/
 	pthread_mutex_t *a;
 	a = malloc(sizeof(pthread_mutex_t));
-	//pthread_mutex_init(a, NULL);
+	pthread_mutex_init(a, NULL);
 	printf("%d\n", pthread_mutex_destroy(a));
-	//free(a);
+	free(a);
 	return (0);
 }
 

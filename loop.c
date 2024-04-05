@@ -3,7 +3,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-void	eating_section(t_node *philo)
+static void	sections(t_node *philo)
 {
 	safe_mutex(philo->l, LOCK, philo->tbl);
 	print_status(R_FORK, philo->index, philo->tbl);
@@ -34,11 +34,11 @@ void	*starting_section(void *a)
 	philo = (t_node *)a;
 	wait_all(philo->tbl);
 	if (philo->index % 2)
-		usleep(42); // az olunca düzelmedi?
+		usleep(42);
 	set_safe(&philo->tbl->waiting, calc_current_ms_time(), &philo->last_eat);
 	while (philo->tbl->d_or_a)
 	{
-		eating_section(philo); /*
+		sections(philo); /*
 		if (philo->status == DEAD) // take safe
 			philo->tbl->d_or_a = DEAD;*/
 								// thinking_section(philo);

@@ -64,7 +64,7 @@ int	main(int argc, char *argv[])
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (1);
-	table.d_or_a = ALIVE; //??
+	table.d_or_a = ALIVE;
 	/*while (table.philo_node)
 	{
 		printf("%d. left_f = %p, right_f = %p\n", table.philo_node->index, table.philo_node->l, table.philo_node->r);

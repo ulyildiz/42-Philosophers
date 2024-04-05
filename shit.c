@@ -1,16 +1,16 @@
-#include "defines.h"
+#include "functions.h"
 
-int	checking_flag(pthread_mutex_t *mtx, size_t *flag)
+int	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl)
 {
 	size_t	i;
 
-	pthread_mutex_lock(mtx);
+	safe_mutex(mtx, LOCK, tbl);
 	i = *flag;
-	pthread_mutex_unlock(mtx);
+	safe_mutex(mtx, UNLOCK, tbl);
 	return (i);
 }
 
-void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst)
+void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst) // TABLE'I GETİR
 {
 	pthread_mutex_lock(mtx);
 	*dst = value;
@@ -19,6 +19,6 @@ void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst)
 
 void	wait_all(t_dining *table)
 {
-	while (checking_flag(&table->waiting, &table->flag))
+	while (checking_flag(&table->waiting, &table->flag, table))
 		;
 }
