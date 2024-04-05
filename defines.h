@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 22:37:55 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/05 03:54:25 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/05 10:41:41 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_node
 	size_t			last_eat;
 	size_t			eated;
 	int				index;
-	short int		status;
+	size_t			status;
 	struct s_node	*next;
 	struct s_node	*prev;
 	struct s_dining	*tbl;
@@ -54,7 +54,7 @@ typedef struct s_dining
 	int				time_eat;
 	int				time_die;
 	int				time_sleep;
-	size_t				flag;
+	size_t			flag;
 	size_t			eat_count;
 	size_t			d_or_a;
 	size_t			begin_time;
@@ -63,6 +63,7 @@ typedef struct s_dining
 	pthread_mutex_t	print;
 	pthread_mutex_t	waiting;
 	pthread_mutex_t	set;
+	pthread_mutex_t	status;
 }					t_dining;
 
 #endif

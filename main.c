@@ -48,6 +48,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	safe_mutex(&table->print, INIT, table);
 	safe_mutex(&table->set, INIT, table);
 	safe_mutex(&table->waiting, INIT, table);
+	safe_mutex(&table->status, INIT, table);
 	tmp = table->philo_node->next;
 	while (tmp != table->philo_node)
 	{

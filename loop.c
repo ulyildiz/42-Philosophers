@@ -3,26 +3,34 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-static void	sections(t_node *philo)
+static void	sleeping_section(t_node *philo)
+{
+	usleep(philo->tbl->time_sleep * 1000);
+	print_status(SLEEPING, philo->index, philo->tbl);
+}
+
+static void	thinking_section(t_node *philo)
+{
+	usleep(40); // düşünme için ölçek belirle
+	print_status(THINKING, philo->index, philo->tbl);
+}
+
+static void	eating_section(t_node *philo)
 {
 	safe_mutex(philo->l, LOCK, philo->tbl);
 	print_status(R_FORK, philo->index, philo->tbl);
 	safe_mutex(philo->r, LOCK, philo->tbl);
 	print_status(L_FORK, philo->index, philo->tbl);
-	printf("%d - %lu- \n", philo->index ,calc_current_ms_time() - philo->last_eat);
-	print_status(EATING, philo->index, philo->tbl);
+//	printf("%d - %lu- \n", philo->index, calc_current_ms_time()
+//		- philo->last_eat);
 	usleep(philo->tbl->time_eat * 1000);
+	print_status(EATING, philo->index, philo->tbl);
 	set_safe(&philo->tbl->set, calc_current_ms_time(), &philo->last_eat);
-	if (philo->eated == philo->tbl->eat_count)
-	{
-		;
-	}
+	philo->eated++;
 	safe_mutex(philo->l, UNLOCK, philo->tbl);
 	safe_mutex(philo->r, UNLOCK, philo->tbl);
-	print_status(SLEEPING, philo->index, philo->tbl);
-	usleep(philo->tbl->time_sleep * 1000);
-	print_status(THINKING, philo->index, philo->tbl);
-	usleep(40); // düşünme için ölçek belirle
+	if (philo->eated == philo->tbl->eat_count)
+		return (set_safe(&philo->tbl->status, FULL, &philo->status));
 }
 
 void	*starting_section(void *a)
@@ -36,12 +44,16 @@ void	*starting_section(void *a)
 	if (philo->index % 2)
 		usleep(42);
 	set_safe(&philo->tbl->waiting, calc_current_ms_time(), &philo->last_eat);
-	while (philo->tbl->d_or_a)
+	while (checking_flag(&philo->tbl->waiting, &philo->tbl->d_or_a,
+			philo->tbl) == ALIVE)
 	{
-		sections(philo); /*
-		if (philo->status == DEAD) // take safe
-			philo->tbl->d_or_a = DEAD;*/
-								// thinking_section(philo);
+		eating_section(philo);
+		if (philo->status == FULL)
+			return (NULL);
+		sleeping_section(philo);
+		thinking_section(philo);
+		//		philo->tbl->d_or_a = DEAD;
+		// thinking_section(philo);
 	}
 	return (NULL);
 }
@@ -63,7 +75,8 @@ int	invite_philo(t_dining *table)
 	i = -1;
 	while (++i < table->philo_nbr)
 	{
-		safe_thread(&table->philo_node->philo_id, JOIN, table->philo_node, NULL);
+		safe_thread(&table->philo_node->philo_id, JOIN, table->philo_node,
+			NULL);
 		table->philo_node = table->philo_node->next;
 	}
 	safe_thread(&table->owner, JOIN, table->philo_node, NULL);

@@ -68,16 +68,22 @@ void	*check_guests(void *a)
 {
 	t_dining	*table;
 	t_node		*tmp;
+	size_t		i;
 
+	i = 0;	
 	table = (t_dining *)a;
 	tmp = table->philo_node;
 	while (1)
 	{
-		if (tmp->status == DEAD)
+		if (checking_flag(&table->status, &tmp->status, table) == DEAD)
 		{
 			printf("%d. philosopher was dead\n", tmp->index);
-		//	getting_up(table);
+			//	getting_up(table);
 		}
+		else if (checking_flag(&table->status, &tmp->status, table) == FULL)
+			i++;
+		if (i == table->philo_nbr)
+			return (NULL);
 		tmp = tmp->next;
 	}
 }

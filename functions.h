@@ -26,7 +26,7 @@ size_t	calc_current_ms_time(void);
 // shit
 void	wait_all(t_dining *table);
 void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst);
-int		checking_flag(pthread_mutex_t *mtx, size_t *flag);
+int		checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);
 
 // safe
 void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining *tbl);

@@ -22,3 +22,18 @@ void	wait_all(t_dining *table)
 	while (checking_flag(&table->waiting, &table->flag, table))
 		;
 }
+
+
+void	kinda_usleep(size_t ms, t_dining *table)
+{
+	size_t	start;
+	size_t	current;
+
+	start = calc_current_ms_time();
+	while (calc_current_ms_time() - start < ms)
+	{
+		/*if ()
+			break ;*/
+		
+	}
+}
