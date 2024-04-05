@@ -78,7 +78,8 @@ void	*check_guests(void *a)
 		if (checking_flag(&table->status, &tmp->status, table) == DEAD)
 		{
 			printf("%d. philosopher was dead\n", tmp->index);
-			//	getting_up(table);
+			set_safe(&table->waiting, DEAD, &table->d_or_a);
+			return (NULL);
 		}
 		else if (checking_flag(&table->status, &tmp->status, table) == FULL)
 			i++;

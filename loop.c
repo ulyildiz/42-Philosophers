@@ -21,8 +21,12 @@ static void	eating_section(t_node *philo)
 	print_status(R_FORK, philo->index, philo->tbl);
 	safe_mutex(philo->r, LOCK, philo->tbl);
 	print_status(L_FORK, philo->index, philo->tbl);
-//	printf("%d - %lu- \n", philo->index, calc_current_ms_time()
-//		- philo->last_eat);
+	//	printf("%d - %lu- \n", philo->index, calc_current_ms_time()
+	//		- philo->last_eat);
+	if (calc_current_ms_time() - philo->last_eat > philo->tbl->time_die)
+		return (set_safe(&philo->tbl->status, DEAD, &philo->status), usleep(3),
+			safe_mutex(philo->l, UNLOCK, philo->tbl), safe_mutex(philo->r,
+				UNLOCK, philo->tbl));
 	usleep(philo->tbl->time_eat * 1000);
 	print_status(EATING, philo->index, philo->tbl);
 	set_safe(&philo->tbl->set, calc_current_ms_time(), &philo->last_eat);
@@ -48,12 +52,10 @@ void	*starting_section(void *a)
 			philo->tbl) == ALIVE)
 	{
 		eating_section(philo);
-		if (philo->status == FULL)
+		if (philo->status == FULL || philo->status == DEAD)
 			return (NULL);
 		sleeping_section(philo);
 		thinking_section(philo);
-		//		philo->tbl->d_or_a = DEAD;
-		// thinking_section(philo);
 	}
 	return (NULL);
 }
