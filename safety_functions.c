@@ -18,6 +18,8 @@ static void	thread_error(int check, t_flags flag, t_dining *tbl)
 {
 	if (check)
 	{
+		if (flag)
+			;
 		err_mang(3);
 		clean_mutex(tbl);
 		clean_node(tbl);

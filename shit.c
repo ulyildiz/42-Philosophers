@@ -1,6 +1,6 @@
 #include "functions.h"
 
-int	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl)
+size_t	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl)
 {
 	size_t	i;
 
@@ -19,12 +19,12 @@ void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst) // TABLE'I GETİR
 
 void	wait_all(t_dining *table)
 {
-	while (checking_flag(&table->waiting, &table->flag, table))
+	while (!checking_flag(&table->waiting, &table->flag, table))
 		;
 }
 
 
-void	kinda_usleep(size_t ms, t_dining *table)
+/*void	kinda_usleep(size_t ms, t_dining *table)
 {
 	size_t	start;
 	size_t	current;
@@ -32,8 +32,8 @@ void	kinda_usleep(size_t ms, t_dining *table)
 	start = calc_current_ms_time();
 	while (calc_current_ms_time() - start < ms)
 	{
-		/*if ()
-			break ;*/
+		if ()
+			break ;
 		
 	}
-}
+}*/

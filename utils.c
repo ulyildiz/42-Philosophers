@@ -22,9 +22,9 @@ size_t	calc_current_ms_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec * 0.001);
 }
 
-int	ft_patoi(const char *s)
+size_t	ft_patoi(const char *s)
 {
-	int	res;
+	size_t	res;
 	int	i;
 
 	res = 0;
@@ -65,6 +65,9 @@ t_node	*birth(int i)
 		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->r, NULL))
 		return (err_mang(2), NULL); //? dışarda freele
+	safe_mutex(&t->m_status, INIT, NULL);
+	if (pthread_mutex_init(&t->p_set, NULL))
+		return (err_mang(2), NULL);
 	t->next = t;
 	t->prev = t;
 	return (t);

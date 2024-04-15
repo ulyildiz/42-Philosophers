@@ -3,17 +3,22 @@
 
 void	print_status(t_flags status, int i, t_dining *tbl)
 {
-	safe_mutex(&tbl->print, LOCK, tbl); // flagle yazma işlemini durdur
+	size_t	time;
+
+	safe_mutex(&tbl->print, LOCK, tbl);
+	time = calc_current_ms_time() - tbl->begin_time;
 	if (status == R_FORK)
-		printf("%d. philosopher's has taken a fork.(right)\n", i);
+		printf("|%lu| - %d. philosopher's has taken a fork.(right)\n", time, i);
 	else if (status == L_FORK)
-		printf("%d. philosopher's has taken a fork.(left)\n", i);
+		printf("|%lu| - %d. philosopher's has taken a fork.(left)\n", time, i);
 	else if (status == SLEEPING)
-		printf("%d. philosopher's sleeping.\n", i);
+		printf("|%lu| - %d. philosopher's sleeping.\n", time, i);
 	else if (status == EATING)
-		printf("%d. philosopher's eating.\n", i);
+		printf("|%lu| - %d. philosopher's eating.\n", time, i);
 	else if (status == THINKING)
-		printf("%d. philosopher's thinking.\n", i);
+		printf("|%lu| - %d. philosopher's thinking.\n", time, i);
+	else if (status == DEAD)
+		printf("|%lu| - %d. philosopher's died.\n", time, i);
 	safe_mutex(&tbl->print, UNLOCK, tbl);
 }
 

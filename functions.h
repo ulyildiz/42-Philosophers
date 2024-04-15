@@ -17,7 +17,7 @@ int		invite_philo(t_dining *table);
 void	print_status(t_flags status, int i, t_dining *tbl);
 
 // utils
-int		ft_patoi(const char *s);
+size_t	ft_patoi(const char *s);
 t_node	*birth(int i);
 void	*ft_calloc(size_t count, size_t nbyte);
 size_t	ft_strlen(const char *s);
@@ -26,7 +26,7 @@ size_t	calc_current_ms_time(void);
 // shit
 void	wait_all(t_dining *table);
 void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst);
-int		checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);
+size_t		checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);
 
 // safe
 void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining *tbl);

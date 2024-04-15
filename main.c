@@ -6,7 +6,7 @@
 static int	init_node(t_dining *table)
 {
 	t_node	*tmp;
-	int		i;
+	size_t		i;
 
 	i = 0;
 	while (++i <= table->philo_nbr)
@@ -37,6 +37,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	table->time_die = ft_patoi(argv[2]);
 	table->time_eat = ft_patoi(argv[3]);
 	table->time_sleep = ft_patoi(argv[4]);
+	table->i=0;
 	if (argc == 6)
 		table->eat_count = ft_patoi(argv[5]);
 	else
@@ -48,7 +49,6 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	safe_mutex(&table->print, INIT, table);
 	safe_mutex(&table->set, INIT, table);
 	safe_mutex(&table->waiting, INIT, table);
-	safe_mutex(&table->status, INIT, table);
 	tmp = table->philo_node->next;
 	while (tmp != table->philo_node)
 	{
@@ -75,9 +75,3 @@ int	main(int argc, char *argv[])
 		getting_up(&table);
 	return (0);
 }
-	/*if (pthread_mutex_init(&table->print, NULL))
-		return (clean_node(table), err_mang(2), 0);
-	if (pthread_mutex_init(&table->waiting, NULL))
-		return (clean_node(table), err_mang(2), 0);
-	if (pthread_mutex_init(&table->set, NULL))
-		return (clean_node(table), err_mang(2), 0);*/

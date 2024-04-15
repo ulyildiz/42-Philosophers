@@ -43,6 +43,8 @@ typedef struct s_node
 	size_t			eated;
 	int				index;
 	size_t			status;
+	pthread_mutex_t	m_status;
+	pthread_mutex_t	p_set;
 	struct s_node	*next;
 	struct s_node	*prev;
 	struct s_dining	*tbl;
@@ -50,10 +52,11 @@ typedef struct s_node
 
 typedef struct s_dining
 {
-	int				philo_nbr;
-	int				time_eat;
-	int				time_die;
-	int				time_sleep;
+	size_t			philo_nbr;
+	size_t			time_eat;
+	size_t			time_die;
+	size_t			time_sleep;
+	size_t			i;
 	size_t			flag;
 	size_t			eat_count;
 	size_t			d_or_a;
@@ -63,7 +66,6 @@ typedef struct s_dining
 	pthread_mutex_t	print;
 	pthread_mutex_t	waiting;
 	pthread_mutex_t	set;
-	pthread_mutex_t	status;
 }					t_dining;
 
 #endif
