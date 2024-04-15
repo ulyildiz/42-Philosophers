@@ -1,4 +1,5 @@
 #include "functions.h"
+#include <unistd.h>
 
 size_t	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl)
 {
@@ -23,17 +24,22 @@ void	wait_all(t_dining *table)
 		;
 }
 
+void	increase_long(pthread_mutex_t *mutex, size_t *value)
+{	
+	safe_mutex(mutex, LOCK, NULL);
+	(*value)++;
+	safe_mutex(mutex, UNLOCK, NULL);
+}
 
-/*void	kinda_usleep(size_t ms, t_dining *table)
+void	kinda_usleep(size_t ms, t_dining *table)
 {
 	size_t	start;
-	size_t	current;
-
+	table = table->philo_node->tbl;
 	start = calc_current_ms_time();
 	while (calc_current_ms_time() - start < ms)
 	{
-		if ()
-			break ;
-		
+		if (!checking_flag(&table->waiting, &table->d_or_a, table))
+				break ;
+		usleep(5); //?
 	}
-}*/
+}

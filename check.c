@@ -72,7 +72,7 @@ static int	check_dead(t_node *current_philo)
 		return (set_safe(&current_philo->m_status, DEAD, &current_philo->status), 1);
 	return (0);
 }
-
+#include <unistd.h>
 void	*check_guests(void *a)
 {
 	t_dining	*table;
@@ -91,6 +91,7 @@ void	*check_guests(void *a)
 			print_status(DEAD, tmp->index, table);
 			return (NULL);
 		}
+		usleep(50);
 		tmp = tmp->next;
 	}
 }

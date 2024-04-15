@@ -7,15 +7,15 @@ void	print_status(t_flags status, int i, t_dining *tbl)
 
 	safe_mutex(&tbl->print, LOCK, tbl);
 	time = calc_current_ms_time() - tbl->begin_time;
-	if (status == R_FORK)
+	if (status == R_FORK && checking_flag(&tbl->waiting, &tbl->d_or_a, tbl))
 		printf("|%lu| - %d. philosopher's has taken a fork.(right)\n", time, i);
-	else if (status == L_FORK)
+	else if (status == L_FORK && checking_flag(&tbl->waiting, &tbl->d_or_a, tbl))
 		printf("|%lu| - %d. philosopher's has taken a fork.(left)\n", time, i);
-	else if (status == SLEEPING)
+	else if (status == SLEEPING && checking_flag(&tbl->waiting, &tbl->d_or_a, tbl))
 		printf("|%lu| - %d. philosopher's sleeping.\n", time, i);
-	else if (status == EATING)
+	else if (status == EATING && checking_flag(&tbl->waiting, &tbl->d_or_a, tbl))
 		printf("|%lu| - %d. philosopher's eating.\n", time, i);
-	else if (status == THINKING)
+	else if (status == THINKING && checking_flag(&tbl->waiting, &tbl->d_or_a, tbl))
 		printf("|%lu| - %d. philosopher's thinking.\n", time, i);
 	else if (status == DEAD)
 		printf("|%lu| - %d. philosopher's died.\n", time, i);
@@ -33,3 +33,4 @@ void	err_mang(int flag) // write daha mı mantıklı?
 	else if (flag == 3)
 		printf("There is a problem while creating thread or pthread_join function.\n");
 }
+/**/
