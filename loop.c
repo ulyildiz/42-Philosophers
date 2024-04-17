@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:33:59 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 14:27:21 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:46:00 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static void	eat_and_sleep(t_node *philo)
 	set_safe(&philo->p_set, calc_current_ms_time(), &philo->last_eat);
 	philo->eated++;
 	if (philo->eated == philo->tbl->eat_count)
-		return (set_safe(&philo->m_status, FULL, &philo->status));
+		return (safe_mutex(philo->l, UNLOCK, philo->tbl), safe_mutex(philo->r,
+				UNLOCK, philo->tbl), set_safe(&philo->m_status, FULL,
+				&philo->status));
 	safe_mutex(philo->l, UNLOCK, philo->tbl);
 	safe_mutex(philo->r, UNLOCK, philo->tbl);
 	print_status(SLEEPING, philo->index, philo->tbl);
@@ -68,8 +70,7 @@ void	*starting_section(void *a)
 			philo->tbl) == ALIVE)
 	{
 		eat_and_sleep(philo);
-		if (checking_flag(&philo->m_status, &philo->status,
-				philo->tbl) != ALIVE)
+		if (checking_flag(&philo->m_status, &philo->status, philo->tbl) == FULL)
 			return (NULL);
 		thinking(philo);
 	}
@@ -104,6 +105,7 @@ int	invite_philo(t_dining *table)
 			NULL);
 		table->philo_node = table->philo_node->next;
 	}
+	set_safe(&table->set, 0, &table->i);
 	safe_thread(&table->owner, JOIN, table->philo_node, NULL);
 	return (1);
 }

@@ -7,12 +7,12 @@ SOURCE = check.c \
 		main.c \
 		print.c \
 		safety_functions.c \
-		shit.c \
-		utils.c
+		utils.c \
+		utils2.c
 OBJ = $(SOURCE:.c=.o)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+	@$(CC) $(OBJ) -o $(NAME)
 all : $(NAME)
 
 .c.o:

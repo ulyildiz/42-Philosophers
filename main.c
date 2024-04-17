@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:29 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 14:19:37 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:00:02 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static void	forks(t_dining *table)
 
 static int	init_table(t_dining *table, int argc, char *argv[])
 {
-	t_node	*tmp;
-
 	table->philo_nbr = ft_patoi(argv[1]);
+	if (table->philo_nbr == 0)
+		return (0);
 	table->time_die = ft_patoi(argv[2]);
 	table->time_eat = ft_patoi(argv[3]);
 	table->time_sleep = ft_patoi(argv[4]);
@@ -85,8 +85,8 @@ int	main(int argc, char *argv[])
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (1);
 	table.d_or_a = ALIVE;
-	if (!invite_philo(&table))
-		getting_up(&table);
+	invite_philo(&table);
+	getting_up(&table);
 	return (0);
 }
 

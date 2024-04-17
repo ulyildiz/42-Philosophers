@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:05 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 14:16:18 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:47:02 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*check_guests(void *a)
 	while (1)
 		if (checking_flag(&table->set, &table->i, table) == table->philo_nbr)
 			break ;
-	while (1)
+	while (checking_flag(&table->set, &table->i, table))
 	{
 		if (check_dead(tmp))
 		{
@@ -47,4 +47,5 @@ void	*check_guests(void *a)
 		usleep(50);
 		tmp = tmp->next;
 	}
+	return (NULL);
 }
