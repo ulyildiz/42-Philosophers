@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:21 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 12:34:22 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:19:02 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ size_t	calc_current_ms_time(void);
 // shit
 void	wait_all(t_dining *table);
 void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst);
-size_t		checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);
+size_t	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);
 void	kinda_usleep(size_t ms, t_dining *table);
 void	increase_long(pthread_mutex_t *mutex, size_t *value);
 

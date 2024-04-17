@@ -6,19 +6,23 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:05 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 12:34:06 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:16:18 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "functions.h"
+#include <unistd.h>
 
 static int	check_dead(t_node *current_philo)
 {
-	if (checking_flag(&current_philo->m_status, &current_philo->status, current_philo->tbl) == FULL)
+	if (checking_flag(&current_philo->m_status, &current_philo->status,
+			current_philo->tbl) == FULL)
 		return (0);
-	if (calc_current_ms_time() - checking_flag(&current_philo->p_set, &current_philo->last_eat, current_philo->tbl) > current_philo->tbl->time_die)
-		return (set_safe(&current_philo->m_status, DEAD, &current_philo->status), 1);
+	if (calc_current_ms_time() - checking_flag(&current_philo->p_set,
+			&current_philo->last_eat,
+			current_philo->tbl) > current_philo->tbl->time_die)
+		return (set_safe(&current_philo->m_status, DEAD,
+				&current_philo->status), 1);
 	return (0);
 }
 

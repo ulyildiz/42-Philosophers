@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:29 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 12:34:30 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:19:37 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static int	init_node(t_dining *table)
 {
 	t_node	*tmp;
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	while (++i <= table->philo_nbr)
@@ -41,6 +41,19 @@ static int	init_node(t_dining *table)
 	return (1);
 }
 
+static void	forks(t_dining *table)
+{
+	t_node	*tmp;
+
+	tmp = table->philo_node->next;
+	while (tmp != table->philo_node)
+	{
+		tmp->l = tmp->prev->r;
+		tmp = tmp->next;
+	}
+	tmp->l = tmp->prev->r;
+}
+
 static int	init_table(t_dining *table, int argc, char *argv[])
 {
 	t_node	*tmp;
@@ -49,7 +62,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	table->time_die = ft_patoi(argv[2]);
 	table->time_eat = ft_patoi(argv[3]);
 	table->time_sleep = ft_patoi(argv[4]);
-	table->i=0;
+	table->i = 0;
 	if (argc == 6)
 		table->eat_count = ft_patoi(argv[5]);
 	else
@@ -61,13 +74,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	safe_mutex(&table->print, INIT, table);
 	safe_mutex(&table->set, INIT, table);
 	safe_mutex(&table->waiting, INIT, table);
-	tmp = table->philo_node->next;
-	while (tmp != table->philo_node)
-	{
-		tmp->l = tmp->prev->r;
-		tmp = tmp->next;
-	}
-	tmp->l = tmp->prev->r;
+	forks(table);
 	return (1);
 }
 
@@ -78,12 +85,14 @@ int	main(int argc, char *argv[])
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (1);
 	table.d_or_a = ALIVE;
-	/*while (table.philo_node)
-	{
-		printf("%d. left_f = %p, right_f = %p\n", table.philo_node->index, table.philo_node->l, table.philo_node->r);
-		table.philo_node = table.philo_node->next;
-	}*/
 	if (!invite_philo(&table))
 		getting_up(&table);
 	return (0);
 }
+
+	/*while (table.philo_node)
+	{
+		printf("%d. left_f = %p, right_f = %p\n", table.philo_node->index,
+			table.philo_node->l, table.philo_node->r);
+		table.philo_node = table.philo_node->next;
+	}*/

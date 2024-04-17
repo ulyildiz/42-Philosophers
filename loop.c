@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:33:59 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 12:40:34 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:27:21 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	*starting_section(void *a)
 			philo->tbl) == ALIVE)
 	{
 		eat_and_sleep(philo);
-		if (checking_flag(&philo->m_status, &philo->status, philo->tbl) != ALIVE)
+		if (checking_flag(&philo->m_status, &philo->status,
+				philo->tbl) != ALIVE)
 			return (NULL);
 		thinking(philo);
 	}
@@ -84,12 +85,14 @@ int	invite_philo(t_dining *table)
 		safe_thread(&table->philo_node->philo_id, CREATE, table->philo_node,
 			&gods_lonely_man);
 	else
+	{
 		while (++i <= table->philo_nbr)
 		{
 			safe_thread(&table->philo_node->philo_id, CREATE, table->philo_node,
 				&starting_section);
 			table->philo_node = table->philo_node->next;
 		}
+	}
 	set_safe(&table->waiting, calc_current_ms_time(), &table->begin_time);
 	if (pthread_create(&table->owner, NULL, &check_guests, table))
 		return (err_mang(3), getting_up(table), 0);

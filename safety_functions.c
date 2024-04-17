@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:34 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 12:34:39 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:24:08 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static void	thread_error(int check, t_flags flag, t_dining *tbl)
 	}
 }
 
-void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining* tbl) // mutex destroyları mutex lockluyken ve oluşmamışken çalışacak şekilde çağırma
+//* mutex destroyları mutex lockluyken ve oluşmamışken 
+//*çalışacak şekilde çağırma
+//locklu olan mutexleri unlockla 
+void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining *tbl)
 {
 	if (flag == UNLOCK)
 		mutex_error(pthread_mutex_unlock(mtx), flag, tbl);
@@ -50,10 +53,12 @@ void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining* tbl) // mutex dest
 		mutex_error(pthread_mutex_destroy(mtx), flag, tbl);
 }
 
-void	safe_thread(pthread_t *thread, t_flags flag, t_node *philo, void *(*func)(void *))
+void	safe_thread(pthread_t *thread, t_flags flag, t_node *philo,
+		void *(*func)(void *))
 {
 	if (flag == CREATE)
-		thread_error(pthread_create(thread, NULL, func, philo), flag, philo->tbl);
+		thread_error(pthread_create(thread, NULL, func, philo), flag,
+			philo->tbl);
 	else if (flag == JOIN)
 		thread_error(pthread_join(*thread, NULL), flag, philo->tbl);
 }
