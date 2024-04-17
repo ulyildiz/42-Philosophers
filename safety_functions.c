@@ -1,4 +1,15 @@
-// mutex ve thread düzgün hata kontrolleri
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   safety_functions.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:34:34 by ulyildiz          #+#    #+#             */
+/*   Updated: 2024/04/17 12:34:39 by ulyildiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "functions.h"
 #include <stdlib.h>
 

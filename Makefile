@@ -1,7 +1,7 @@
 NAME = philo
-CC = cc -Wall -Wextra -Werror -g
+CC = cc -Wall -Wextra -Werror -fsanitize=thread -g
 SOURCE = check.c \
-		check_guests \
+		check_guests.c \
 		free.c \
 		loop.c \
 		main.c \

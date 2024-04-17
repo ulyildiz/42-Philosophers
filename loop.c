@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:33:59 by ulyildiz          #+#    #+#             */
+/*   Updated: 2024/04/17 12:40:34 by ulyildiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "functions.h"
 #include <stdio.h>
 #include <sys/time.h>
@@ -39,7 +51,6 @@ static void	*gods_lonely_man(void *a)
 	print_status(R_FORK, philo->index, philo->tbl);
 	kinda_usleep(philo->tbl->time_die, philo->tbl);
 	safe_mutex(philo->r, UNLOCK, philo->tbl);
-	print_status(DEAD, philo->index, philo->tbl);
 	return (NULL);
 }
 
@@ -52,12 +63,12 @@ void	*starting_section(void *a)
 	set_safe(&philo->p_set, calc_current_ms_time(), &philo->last_eat);
 	increase_long(&philo->tbl->set, &philo->tbl->i);
 	if (philo->index % 2)
-		usleep(42);
+		usleep(420);
 	while (checking_flag(&philo->tbl->waiting, &philo->tbl->d_or_a,
 			philo->tbl) == ALIVE)
 	{
 		eat_and_sleep(philo);
-		if (checking_flag(&philo->m_status, &philo->status, philo->tbl) == FULL)
+		if (checking_flag(&philo->m_status, &philo->status, philo->tbl) != ALIVE)
 			return (NULL);
 		thinking(philo);
 	}

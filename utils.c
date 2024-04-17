@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 12:34:41 by ulyildiz          #+#    #+#             */
+/*   Updated: 2024/04/17 12:35:12 by ulyildiz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "functions.h"
 #include <stdlib.h>
 #include <sys/time.h>
@@ -25,7 +37,7 @@ size_t	calc_current_ms_time(void)
 size_t	ft_patoi(const char *s)
 {
 	size_t	res;
-	int	i;
+	int		i;
 
 	res = 0;
 	i = 0;
