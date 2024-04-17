@@ -1,5 +1,5 @@
 NAME = philo
-CC = cc -Wall -Wextra -Werror -fsanitize=thread -g
+CC = cc -Wall -Wextra -Werror -g
 SOURCE = check.c \
 		check_guests.c \
 		free.c \

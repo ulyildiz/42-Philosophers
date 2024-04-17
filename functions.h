@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:21 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 14:19:02 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 23:06:15 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	err_mang(int flag);
 void	*check_guests(void *a);
 int		arg_check(int argc, char *argv[]);
 
+//loop
 int		invite_philo(t_dining *table);
 void	print_status(t_flags status, int i, t_dining *tbl);
 
@@ -35,7 +36,7 @@ void	*ft_calloc(size_t count, size_t nbyte);
 size_t	ft_strlen(const char *s);
 size_t	calc_current_ms_time(void);
 
-// shit
+// utils2
 void	wait_all(t_dining *table);
 void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst);
 size_t	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);

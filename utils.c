@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:41 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 14:25:10 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 23:28:04 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,16 @@ t_node	*birth(int i)
 	if (!t)
 		return (err_mang(1), NULL);
 	t->index = i;
+	t->eated = 0;
 	t->r = (pthread_mutex_t *)ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!t->r)
 		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->r, NULL))
-		return (err_mang(2), NULL); //? dışarda freele
+		return (err_mang(2), free(t->r), free(t), NULL);
 	safe_mutex(&t->m_status, INIT, NULL);
 	if (pthread_mutex_init(&t->p_set, NULL))
-		return (err_mang(2), NULL);
+		return (err_mang(2), pthread_mutex_destroy(t->r), 
+			free(t->r), free(t), NULL);
 	t->next = t;
 	t->prev = t;
 	return (t);

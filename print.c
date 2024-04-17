@@ -6,12 +6,13 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:32 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 14:20:54 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 23:07:35 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "functions.h"
 #include <stdio.h>
+#include <unistd.h>
 
 void	print_status(t_flags status, int i, t_dining *tbl)
 {
@@ -34,8 +35,7 @@ void	print_status(t_flags status, int i, t_dining *tbl)
 	else if (status == THINKING && checking_flag(&tbl->waiting, &tbl->d_or_a,
 			tbl) == ALIVE)
 		printf("|%lu| - %d. philosopher's thinking.\n", time, i);
-	else if (status == DEAD && checking_flag(&tbl->waiting, &tbl->d_or_a,
-			tbl) == DEAD)
+	else if (status == DEAD)
 		printf("|%lu| - %d. philosopher's died.\n", time, i);
 	safe_mutex(&tbl->print, UNLOCK, tbl);
 }
@@ -43,11 +43,11 @@ void	print_status(t_flags status, int i, t_dining *tbl)
 void	err_mang(int flag)
 {
 	if (flag == 0)
-		printf("Your input need to be an positive integer type's value.\n");
+		write(2, "Your input need to be an positive integer type's value.\n", 56);
 	else if (flag == 1)
-		printf("There is a problem while allocating memory.\n");
+		write(2, "There is a problem while allocating memory.\n", 44);
 	else if (flag == 2)
-		printf("There is a problem about mutexes.\n");
+		write(2, "There is a problem about mutexes.\n", 34);
 	else if (flag == 3)
-		printf("There is a problem while creating or while waiting thread.\n");
+		write(2, "There is a problem while creating or while waiting thread.\n", 59);
 }

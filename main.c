@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:29 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 19:00:02 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/17 23:05:11 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_node(t_dining *table)
 	{
 		tmp = birth(i);
 		if (!tmp)
-			return (clean_node(table), 0);
+			return (0);
 		if (!table->philo_node)
 			table->philo_node = tmp;
 		else
@@ -58,7 +58,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 {
 	table->philo_nbr = ft_patoi(argv[1]);
 	if (table->philo_nbr == 0)
-		return (0);
+		return (err_mang(0), 0);
 	table->time_die = ft_patoi(argv[2]);
 	table->time_eat = ft_patoi(argv[3]);
 	table->time_sleep = ft_patoi(argv[4]);
@@ -68,9 +68,10 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	else
 		table->eat_count = -1;
 	table->flag = 0;
+	table->d_or_a = ALIVE;
 	table->philo_node = NULL;
 	if (!init_node(table))
-		return (0);
+		return (err_mang(1), getting_up(table), 0);
 	safe_mutex(&table->print, INIT, table);
 	safe_mutex(&table->set, INIT, table);
 	safe_mutex(&table->waiting, INIT, table);
@@ -84,15 +85,7 @@ int	main(int argc, char *argv[])
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (1);
-	table.d_or_a = ALIVE;
 	invite_philo(&table);
 	getting_up(&table);
 	return (0);
 }
-
-	/*while (table.philo_node)
-	{
-		printf("%d. left_f = %p, right_f = %p\n", table.philo_node->index,
-			table.philo_node->l, table.philo_node->r);
-		table.philo_node = table.philo_node->next;
-	}*/
