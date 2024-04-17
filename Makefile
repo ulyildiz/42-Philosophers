@@ -1,6 +1,7 @@
 NAME = philo
 CC = cc -Wall -Wextra -Werror -g
 SOURCE = check.c \
+		check_guests \
 		free.c \
 		loop.c \
 		main.c \
