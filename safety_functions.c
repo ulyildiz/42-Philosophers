@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:34 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 23:11:29 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:14:31 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	mutex_error(int check, t_flags flag, t_dining *tbl)
 	{
 		err_mang(2);
 		if (flag != DESTROY)
-			clean_mutex(tbl);
+	//		clean_mutex(tbl);
 		clean_node(tbl);
 		exit(1);
 	}
@@ -32,7 +32,7 @@ static void	thread_error(int check, t_flags flag, t_dining *tbl)
 		if (flag)
 			;
 		err_mang(3);
-		clean_mutex(tbl);
+	//	clean_mutex(tbl);
 		clean_node(tbl);
 		exit(1);
 	}

@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:41 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 23:28:04 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:55:16 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,12 @@ t_node	*birth(int i)
 		return (free(t), err_mang(1), NULL);
 	if (pthread_mutex_init(t->r, NULL))
 		return (err_mang(2), free(t->r), free(t), NULL);
-	safe_mutex(&t->m_status, INIT, NULL);
 	if (pthread_mutex_init(&t->p_set, NULL))
 		return (err_mang(2), pthread_mutex_destroy(t->r), 
 			free(t->r), free(t), NULL);
+	if (pthread_mutex_init(&t->m_status, NULL))
+		return (err_mang(2), pthread_mutex_destroy(&t->p_set), 
+			pthread_mutex_destroy(t->r), free(t->r), free(t), NULL);
 	t->next = t;
 	t->prev = t;
 	return (t);

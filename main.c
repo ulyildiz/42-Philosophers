@@ -6,7 +6,7 @@
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:29 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/17 23:05:11 by ulyildiz         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:48:50 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	init_node(t_dining *table)
 	{
 		tmp = birth(i);
 		if (!tmp)
-			return (0);
+			return (clean_node(table), 0);
 		if (!table->philo_node)
 			table->philo_node = tmp;
 		else
@@ -54,6 +54,18 @@ static void	forks(t_dining *table)
 	tmp->l = tmp->prev->r;
 }
 
+static int	table_mutexes(t_dining *table)
+{
+	if (pthread_mutex_init(&table->print, NULL))
+		return (0);
+	if (pthread_mutex_init(&table->set, NULL))
+		return (pthread_mutex_destroy(&table->print), 0);
+	if (pthread_mutex_init(&table->waiting, NULL))
+		return (pthread_mutex_destroy(&table->print),
+			pthread_mutex_destroy(&table->set), 0);
+	return (1);
+}
+
 static int	init_table(t_dining *table, int argc, char *argv[])
 {
 	table->philo_nbr = ft_patoi(argv[1]);
@@ -70,11 +82,8 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 	table->flag = 0;
 	table->d_or_a = ALIVE;
 	table->philo_node = NULL;
-	if (!init_node(table))
-		return (err_mang(1), getting_up(table), 0);
-	safe_mutex(&table->print, INIT, table);
-	safe_mutex(&table->set, INIT, table);
-	safe_mutex(&table->waiting, INIT, table);
+	if (!table_mutexes(table) || !init_node(table))
+		return (err_mang(1), 0);
 	forks(table);
 	return (1);
 }
