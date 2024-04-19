@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "functions.h"
+#include "defines.h"
 #include <stdlib.h>
 #include <errno.h>
 
-void	free_philo_mutexes(t_node *philo)
+static void	destroy_philo_mutexes(t_node *philo)
 {
 	if (pthread_mutex_destroy(&philo->p_set) == EBUSY)
 	{
@@ -26,20 +26,25 @@ void	free_philo_mutexes(t_node *philo)
 		pthread_mutex_unlock(&philo->m_status);
 		pthread_mutex_destroy(&philo->m_status);
 	}
+	if (pthread_mutex_destroy(philo->r) == EBUSY)
+	{
+		pthread_mutex_unlock(philo->r);
+		pthread_mutex_destroy(philo->r);
+	}
 }
 
-void	clean_node(t_dining *table)
+void	clean_node(t_dining *table, size_t philo_num)
 {
 	size_t	i;
 	t_node	*tmp;
 
 	i = 0;
-	while (i < table->philo_nbr && table->philo_node)
+	while (i < philo_num)
 	{
+		destroy_philo_mutexes(table->philo_node);
 		if (table->philo_node->r)
 			free(table->philo_node->r);
 		tmp = table->philo_node->next;
-		free_philo_mutexes(table->philo_node);
 		if (table->philo_node)
 			free(table->philo_node);
 		table->philo_node = tmp;
@@ -47,11 +52,8 @@ void	clean_node(t_dining *table)
 	}
 }
 
-void	getting_up(t_dining *table)
+static void	destroy_table_mutexes(t_dining *table)
 {
-	//clean_mutex(table);
-	if (table->philo_node)
-		clean_node(table);
 	if (pthread_mutex_destroy(&table->print) == EBUSY)
 	{
 		pthread_mutex_unlock(&table->print);
@@ -67,32 +69,10 @@ void	getting_up(t_dining *table)
 		pthread_mutex_unlock(&table->waiting);
 		pthread_mutex_destroy(&table->waiting);
 	}
-	exit(1);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/*void	clean_mutex(t_dining *table)
+void	getting_up(t_dining *table)
 {
-	size_t	i;
-
-	i = 0;
-	safe_mutex(&table->print, DESTROY, table);
-	safe_mutex(&table->waiting, DESTROY, table);
-	safe_mutex(&table->set, DESTROY, table);
-	while (i < table->philo_nbr)
-	{
-		safe_mutex(table->philo_node->r, DESTROY, table);
-		table->philo_node = table->philo_node->next;
-		i++;
-	}
-}*/
+	clean_node(table, table->philo_nbr);
+	destroy_table_mutexes(table);
+}

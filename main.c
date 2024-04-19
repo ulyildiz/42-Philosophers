@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "functions.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 static int	init_node(t_dining *table)
 {
@@ -25,7 +22,7 @@ static int	init_node(t_dining *table)
 	{
 		tmp = birth(i);
 		if (!tmp)
-			return (clean_node(table), 0);
+			return (clean_node(table, i), 0);
 		if (!table->philo_node)
 			table->philo_node = tmp;
 		else
@@ -70,7 +67,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 {
 	table->philo_nbr = ft_patoi(argv[1]);
 	if (table->philo_nbr == 0)
-		return (err_mang(0), 0);
+		return (0);
 	table->time_die = ft_patoi(argv[2]);
 	table->time_eat = ft_patoi(argv[3]);
 	table->time_sleep = ft_patoi(argv[4]);

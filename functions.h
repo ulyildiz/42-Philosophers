@@ -16,9 +16,8 @@
 # include "defines.h"
 
 // free_error
-void	clean_node(t_dining *table);
+void	clean_node(t_dining *table, size_t philo_num);
 void	getting_up(t_dining *table);
-void	clean_mutex(t_dining *table);
 void	err_mang(int flag);
 
 // check

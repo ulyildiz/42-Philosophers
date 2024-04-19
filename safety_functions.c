@@ -20,7 +20,7 @@ static void	mutex_error(int check, t_flags flag, t_dining *tbl)
 		err_mang(2);
 		if (flag != DESTROY)
 	//		clean_mutex(tbl);
-		clean_node(tbl);
+		clean_node(tbl, tbl->philo_nbr);
 		exit(1);
 	}
 }
@@ -30,10 +30,10 @@ static void	thread_error(int check, t_flags flag, t_dining *tbl)
 	if (check)
 	{
 		if (flag)
-			;
+			flag = 0;
 		err_mang(3);
 	//	clean_mutex(tbl);
-		clean_node(tbl);
+		clean_node(tbl, tbl->philo_nbr);
 		exit(1);
 	}
 }
