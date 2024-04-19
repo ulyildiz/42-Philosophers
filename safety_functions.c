@@ -18,8 +18,6 @@ static void	mutex_error(int check, t_flags flag, t_dining *tbl)
 	if (check)
 	{
 		err_mang(2);
-		if (flag != DESTROY)
-	//		clean_mutex(tbl);
 		clean_node(tbl, tbl->philo_nbr);
 		exit(1);
 	}
@@ -32,15 +30,11 @@ static void	thread_error(int check, t_flags flag, t_dining *tbl)
 		if (flag)
 			flag = 0;
 		err_mang(3);
-	//	clean_mutex(tbl);
 		clean_node(tbl, tbl->philo_nbr);
 		exit(1);
 	}
 }
 
-//* mutex destroyları mutex lockluyken ve oluşmamışken 
-//*çalışacak şekilde çağırma
-//locklu olan mutexleri unlockla 
 void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining *tbl)
 {
 	if (flag == UNLOCK)
@@ -57,8 +51,11 @@ void	safe_thread(pthread_t *thread, t_flags flag, t_node *philo,
 		void *(*func)(void *))
 {
 	if (flag == CREATE)
+	{
 		thread_error(pthread_create(thread, NULL, func, philo), flag,
 			philo->tbl);
+		pthread_detach(thread);
+	}
 	else if (flag == JOIN)
 		thread_error(pthread_join(*thread, NULL), flag, philo->tbl);
 }
