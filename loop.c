@@ -23,20 +23,20 @@ static void	thinking(t_node *philo)
 
 static void	eat_and_sleep(t_node *philo)
 {
-	safe_mutex(philo->l, LOCK, philo->tbl);
+	pthread_mutex_lock(philo->l);
 	print_status(L_FORK, philo->index, philo->tbl);
-	safe_mutex(philo->r, LOCK, philo->tbl);
+	pthread_mutex_lock(philo->r);
 	print_status(R_FORK, philo->index, philo->tbl);
 	print_status(EATING, philo->index, philo->tbl);
 	kinda_usleep(philo->tbl->time_eat, philo->tbl);
 	set_safe(&philo->p_set, calc_current_ms_time(), &philo->last_eat);
 	philo->eated++;
 	if (philo->eated == philo->tbl->eat_count)
-		return (safe_mutex(philo->l, UNLOCK, philo->tbl), safe_mutex(philo->r,
-				UNLOCK, philo->tbl), set_safe(&philo->m_status, FULL,
+		return (pthread_mutex_unlock(philo->l),
+			pthread_mutex_unlock(philo->r), set_safe(&philo->m_status, FULL,
 				&philo->status));
-	safe_mutex(philo->l, UNLOCK, philo->tbl);
-	safe_mutex(philo->r, UNLOCK, philo->tbl);
+	pthread_mutex_unlock(philo->l);
+	pthread_mutex_unlock(philo->r);
 	print_status(SLEEPING, philo->index, philo->tbl);
 	kinda_usleep(philo->tbl->time_sleep, philo->tbl);
 }
@@ -46,13 +46,15 @@ static void	*gods_lonely_man(void *a)
 	t_node	*philo;
 
 	philo = (t_node *)a;
-	wait_all(philo->tbl);
+	if (!wait_all(philo->tbl))
+		return (pthread_detach(philo->philo_id), 
+			increase_long(&philo->tbl->set, &philo->tbl->detached), NULL);
 	set_safe(&philo->p_set, calc_current_ms_time(), &philo->last_eat);
 	increase_long(&philo->tbl->set, &philo->tbl->i);
-	safe_mutex(philo->r, LOCK, philo->tbl);
+	pthread_mutex_lock(philo->r);
 	print_status(R_FORK, philo->index, philo->tbl);
 	kinda_usleep(philo->tbl->time_die, philo->tbl);
-	safe_mutex(philo->r, UNLOCK, philo->tbl);
+	pthread_mutex_unlock(philo->r);
 	return (NULL);
 }
 
@@ -61,16 +63,17 @@ void	*starting_section(void *a)
 	t_node	*philo;
 
 	philo = (t_node *)a;
-	wait_all(philo->tbl);
+	if (!wait_all(philo->tbl))
+		return (pthread_detach(philo->philo_id),
+			increase_long(&philo->tbl->set, &philo->tbl->detached), NULL);
 	set_safe(&philo->p_set, calc_current_ms_time(), &philo->last_eat);
 	increase_long(&philo->tbl->set, &philo->tbl->i);
 	if (philo->index % 2)
 		usleep(420);
-	while (checking_flag(&philo->tbl->waiting, &philo->tbl->d_or_a,
-			philo->tbl) == ALIVE)
+	while (checking_flag(&philo->tbl->waiting, &philo->tbl->d_or_a) == ALIVE)
 	{
 		eat_and_sleep(philo);
-		if (checking_flag(&philo->m_status, &philo->status, philo->tbl) == FULL)
+		if (checking_flag(&philo->m_status, &philo->status) == FULL)
 			return (NULL);
 		thinking(philo);
 	}
@@ -82,30 +85,31 @@ int	invite_philo(t_dining *table)
 	size_t	i;
 
 	i = 0;
-	if (table->philo_nbr == 1)
-		safe_thread(&table->philo_node->philo_id, CREATE, table->philo_node,
-			&gods_lonely_man);
+	if (table->philo_nbr == 1 && ++i)
+	{
+		if (pthread_create(&table->philo_node->philo_id, NULL, &gods_lonely_man, table->philo_node))
+			return (set_safe(&table->waiting, 1, &table->flag), i);
+	}
 	else
 	{
 		while (++i <= table->philo_nbr)
 		{
-			safe_thread(&table->philo_node->philo_id, CREATE, table->philo_node,
-				&starting_section);
+			if (pthread_create(&table->philo_node->philo_id, NULL, &starting_section ,table->philo_node))
+				return (set_safe(&table->waiting, 1, &table->flag), i);
 			table->philo_node = table->philo_node->next;
 		}
 	}
 	set_safe(&table->waiting, calc_current_ms_time(), &table->begin_time);
 	if (pthread_create(&table->owner, NULL, &check_guests, table))
-		return (err_mang(3), getting_up(table), 0);
+		return (set_safe(&table->waiting, 1, &table->flag), i);
 	set_safe(&table->waiting, -1, &table->flag);
 	i = 0;
 	while (++i <= table->philo_nbr)
 	{
-		safe_thread(&table->philo_node->philo_id, JOIN, table->philo_node,
-			NULL);
+		pthread_join(table->philo_node->philo_id, NULL);
 		table->philo_node = table->philo_node->next;
 	}
 	set_safe(&table->set, 0, &table->i);
-	safe_thread(&table->owner, JOIN, table->philo_node, NULL);
-	return (1);
+	pthread_join(table->owner, NULL);
+	return (0);
 }

@@ -76,6 +76,7 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 		table->eat_count = ft_patoi(argv[5]);
 	else
 		table->eat_count = -1;
+	table->detached = 0;
 	table->flag = 0;
 	table->d_or_a = ALIVE;
 	table->philo_node = NULL;
@@ -88,10 +89,16 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_dining	table;
+	size_t 		check;
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (1);
-	invite_philo(&table);
+	check = invite_philo(&table);
+	if (check != 0)
+	{
+		while (checking_flag(&table.set, &table.detached) != check);
+		err_mang(3);
+	}
 	getting_up(&table);
 	return (0);
 }
