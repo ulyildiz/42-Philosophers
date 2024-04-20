@@ -7,26 +7,6 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-size_t	calc_current_ms_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec * 0.001);
-}
-void	kinda_usleep(size_t ms, t_dining *table)
-{
-	size_t	start;
-	size_t	current;
-
-	start = calc_current_ms_time();
-	while (calc_current_ms_time() - start <= ms)
-	{
-		/*if ()
-			break ;*/
-		;
-	}
-}
 int	main(void)
 {
 	char			*opaque_ptr;

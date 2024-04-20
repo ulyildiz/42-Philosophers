@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-static void	destroy_philo_mutexes(t_node *philo)
+void	destroy_philo_mutexes(t_node *philo)
 {
 	if (pthread_mutex_destroy(&philo->p_set) == EBUSY)
 	{
@@ -52,7 +52,7 @@ void	clean_node(t_dining *table, size_t philo_num)
 	}
 }
 
-static void	destroy_table_mutexes(t_dining *table)
+void	destroy_table_mutexes(t_dining *table)
 {
 	if (pthread_mutex_destroy(&table->print) == EBUSY)
 	{

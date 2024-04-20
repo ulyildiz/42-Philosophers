@@ -19,6 +19,8 @@
 void	clean_node(t_dining *table, size_t philo_num);
 void	getting_up(t_dining *table);
 void	err_mang(int flag);
+void	destroy_philo_mutexes(t_node *philo);
+void	destroy_table_mutexes(t_dining *table);
 
 // check
 void	*check_guests(void *a);
@@ -36,14 +38,10 @@ size_t	ft_strlen(const char *s);
 size_t	calc_current_ms_time(void);
 
 // utils2
-void	wait_all(t_dining *table);
+int		wait_all(t_dining *table);
 void	set_safe(pthread_mutex_t *mtx, size_t value, size_t *dst);
-size_t	checking_flag(pthread_mutex_t *mtx, size_t *flag, t_dining *tbl);
+size_t	checking_flag(pthread_mutex_t *mtx, size_t *flag);
 void	kinda_usleep(size_t ms, t_dining *table);
 void	increase_long(pthread_mutex_t *mutex, size_t *value);
 
-// safe
-void	safe_mutex(pthread_mutex_t *mtx, t_flags flag, t_dining *tbl);
-void	safe_thread(pthread_t *thread, t_flags flag, t_node *philo,
-			void *(*func)(void *));
 #endif

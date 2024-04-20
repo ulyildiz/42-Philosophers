@@ -15,12 +15,10 @@
 
 static int	check_dead(t_node *current_philo)
 {
-	if (checking_flag(&current_philo->m_status, &current_philo->status,
-			current_philo->tbl) == FULL)
+	if (checking_flag(&current_philo->m_status, &current_philo->status) == FULL)
 		return (0);
 	if (calc_current_ms_time() - checking_flag(&current_philo->p_set,
-			&current_philo->last_eat,
-			current_philo->tbl) > current_philo->tbl->time_die)
+			&current_philo->last_eat) >= current_philo->tbl->time_die) // '=' tekli filoda ölüm mesaj yazmasını çözdü
 		return (set_safe(&current_philo->m_status, DEAD,
 				&current_philo->status), 1);
 	return (0);
@@ -34,9 +32,9 @@ void	*check_guests(void *a)
 	table = (t_dining *)a;
 	tmp = table->philo_node;
 	while (1)
-		if (checking_flag(&table->set, &table->i, table) == table->philo_nbr)
+		if (checking_flag(&table->set, &table->i) == table->philo_nbr)
 			break ;
-	while (checking_flag(&table->set, &table->i, table))
+	while (checking_flag(&table->set, &table->i))
 	{
 		if (check_dead(tmp))
 		{

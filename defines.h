@@ -24,12 +24,6 @@ typedef enum s_flags
 	SLEEPING,
 	R_FORK,
 	L_FORK,
-	LOCK,
-	UNLOCK,
-	CREATE,
-	DESTROY,
-	INIT,
-	JOIN,
 	FULL
 }			t_flags;
 
@@ -61,6 +55,7 @@ typedef struct s_dining
 	size_t			eat_count;
 	size_t			d_or_a;
 	size_t			begin_time;
+	size_t			detached;
 	pthread_t		owner;
 	t_node			*philo_node;
 	pthread_mutex_t	print;

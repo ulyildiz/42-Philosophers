@@ -18,26 +18,21 @@ void	print_status(t_flags status, int i, t_dining *tbl)
 {
 	size_t	time;
 
-	safe_mutex(&tbl->print, LOCK, tbl);
+	pthread_mutex_lock(&tbl->print);
 	time = calc_current_ms_time() - tbl->begin_time;
-	if (status == R_FORK && checking_flag(&tbl->waiting, &tbl->d_or_a,
-			tbl) == ALIVE)
+	if (status == R_FORK && checking_flag(&tbl->waiting, &tbl->d_or_a) == ALIVE)
 		printf("|%lu| - %d. philosopher's has taken a fork.(right)\n", time, i);
-	else if (status == L_FORK && checking_flag(&tbl->waiting, &tbl->d_or_a,
-			tbl) == ALIVE)
+	else if (status == L_FORK && checking_flag(&tbl->waiting, &tbl->d_or_a) == ALIVE)
 		printf("|%lu| - %d. philosopher's has taken a fork.(left)\n", time, i);
-	else if (status == SLEEPING && checking_flag(&tbl->waiting, &tbl->d_or_a,
-			tbl) == ALIVE)
+	else if (status == SLEEPING && checking_flag(&tbl->waiting, &tbl->d_or_a) == ALIVE)
 		printf("|%lu| - %d. philosopher's sleeping.\n", time, i);
-	else if (status == EATING && checking_flag(&tbl->waiting, &tbl->d_or_a,
-			tbl) == ALIVE)
+	else if (status == EATING && checking_flag(&tbl->waiting, &tbl->d_or_a) == ALIVE)
 		printf("|%lu| - %d. philosopher's eating.\n", time, i);
-	else if (status == THINKING && checking_flag(&tbl->waiting, &tbl->d_or_a,
-			tbl) == ALIVE)
+	else if (status == THINKING && checking_flag(&tbl->waiting, &tbl->d_or_a) == ALIVE)
 		printf("|%lu| - %d. philosopher's thinking.\n", time, i);
 	else if (status == DEAD)
 		printf("|%lu| - %d. philosopher's died.\n", time, i);
-	safe_mutex(&tbl->print, UNLOCK, tbl);
+	pthread_mutex_unlock(&tbl->print);
 }
 
 void	err_mang(int flag)
