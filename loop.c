@@ -17,7 +17,7 @@
 
 static void	thinking(t_node *philo)
 {
-	kinda_usleep(4, philo->tbl);
+	kinda_usleep(2, philo->tbl);
 	print_status(THINKING, philo->index, philo->tbl);
 }
 
@@ -27,6 +27,8 @@ static void	eat_and_sleep(t_node *philo)
 	print_status(L_FORK, philo->index, philo->tbl);
 	pthread_mutex_lock(philo->r);
 	print_status(R_FORK, philo->index, philo->tbl);
+	if (philo->tbl->eat_count == 0)
+		kinda_usleep(philo->tbl->time_die, philo->tbl);
 	print_status(EATING, philo->index, philo->tbl);
 	kinda_usleep(philo->tbl->time_eat, philo->tbl);
 	set_safe(&philo->p_set, calc_current_ms_time(), &philo->last_eat);

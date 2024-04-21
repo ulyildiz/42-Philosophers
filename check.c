@@ -69,7 +69,7 @@ int	arg_check(int argc, char *argv[])
 	i = 1;
 	while (argv[i])
 	{
-		if (!numeric_check(argv[i]) && !set_check(argv[i]))
+		if (!set_check(argv[i]) || !numeric_check(argv[i]))
 			return (err_mang(0), 0);
 		i++;
 	}
