@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 12:34:41 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/18 17:55:16 by ulyildiz         ###   ########.fr       */
+/*   Created: 2024/04/22 11:51:20 by ulyildiz          #+#    #+#             */
+/*   Updated: 2024/04/22 11:51:20 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ t_node	*birth(int i)
 	if (pthread_mutex_init(t->r, NULL))
 		return (err_mang(2), free(t->r), free(t), NULL);
 	if (pthread_mutex_init(&t->p_set, NULL))
-		return (err_mang(2), pthread_mutex_destroy(t->r), 
-			free(t->r), free(t), NULL);
+		return (err_mang(2), pthread_mutex_destroy(t->r), free(t->r), free(t),
+			NULL);
 	if (pthread_mutex_init(&t->m_status, NULL))
-		return (err_mang(2), pthread_mutex_destroy(&t->p_set), 
+		return (err_mang(2), pthread_mutex_destroy(&t->p_set),
 			pthread_mutex_destroy(t->r), free(t->r), free(t), NULL);
 	t->next = t;
 	t->prev = t;

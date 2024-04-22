@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ulyildiz <ulyildiz@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 12:34:29 by ulyildiz          #+#    #+#             */
-/*   Updated: 2024/04/18 17:48:50 by ulyildiz         ###   ########.fr       */
+/*   Created: 2024/04/22 11:51:02 by ulyildiz          #+#    #+#             */
+/*   Updated: 2024/04/22 11:51:02 by ulyildiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,15 @@ static int	init_table(t_dining *table, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_dining	table;
-	size_t 		check;
+	size_t		check;
 
 	if (!arg_check(argc, argv) || !init_table(&table, argc, argv))
 		return (1);
 	check = invite_philo(&table);
 	if (check != 0)
 	{
-		while (checking_flag(&table.set, &table.detached) != check);
+		while (checking_flag(&table.set, &table.detached) != check)
+			;
 		err_mang(3);
 	}
 	getting_up(&table);
